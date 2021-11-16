@@ -1,0 +1,89 @@
+#!/usr/bin/env bash
+
+#-------------------------------------------------#
+# Authoress: AthenaD3V <athenad3v@protonmail.com> #
+#                                                 #
+# Creation Date: 11/11/2021                       #
+#                                                 #
+# Description: Simple script to convert text to   #
+# image using the imagemagick                     #
+#                                                 #
+# Dependents: ncurses-utils,imagemagick,sed,awk   #
+#                                                 #
+#-------------------------------------------------#
+
+# TPUT :-:
+
+BLACK=$(tput setaf 0)
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+YELLOW=$(tput setaf 3)
+BLUE=$(tput setaf 4)
+MAGENTA=$(tput setaf 5)
+CYAN=$(tput setaf 6)
+WHITE=$(tput setaf 7)
+BOLD=$(tput bold)
+REDBG=$(tput setab 1)
+SUBRI=$(tput smul)
+RESET=$(tput sgr0)
+
+#######################
+
+A1=$1
+
+A2=$2
+
+outputfile=$3
+
+check_dependents_install()
+{
+        if [[ `command -v convert` ]]; then
+                CodeImg
+        else
+                apt-get install imagemagick -y &> /dev/null
+                CodeImg
+        fi
+}
+
+CodeImg()
+{
+        if [[ "$A2" == "-o" ]]; then
+                local linhas=$(wc -l "$A1" | awk '{print $1}')
+                local colunas=$(wc -L "$A1" | awk '{print $1}')
+                local largura=$(echo $colunas \* 15 | bc)
+                local altura=$(echo $linhas \* 33 | bc)
+                echo -e "\n${WHITE}Converting File:${RESET} ${BOLD}${SUBRI}$A1${RESET}"
+                echo  "${WHITE}This may take a few seconds...${RESET}"
+                if convert -size "$largura"x"$altura" xc:'black' -font "../CmCode2Img/.fonts/FreeMonoBold.ttf" -pointsize 27 -fill 'white' -draw "text 20,40 '$(sed -e "s/'/\\\'/g" "$A1")'" "$outputfile.jpg" &> /dev/null; then
+                        echo -e "\n${BOLD}Successfully converted code!!!\n\nBye :)${RESET}\n"
+                else
+                        echo -e "\n${RED}Unfortunately an error occurred!!! Make sure everything is correct${RESET}"
+                fi
+        elif [[ "$A1" == "--help" ]]; then
+                echo -e "${WHITE}Usage: ${RESET}\n"
+                echo -e "      Example: ${BOLD}./CmCode2Img A1 -o NameImage${RESET}\n"
+        elif [[ "$A1" == "-f" ]]; then
+                font_current=$(cat CmCode2Img | head -n 46 | tail -n1 | grep -o "[A-Za-z1-9]*\FreeMonoBold.ttf")
+                echo -e "\n${WHITE}Changing The Source:${RESET} ${BOLD}${SUBRI}$font_current${RESET} ${BOLD}➞${RESET} ${BOLD}${SUBRI}$A2${RESET}\n"
+                pwd_A=$(pwd)
+                findk=$(find $pwd_A/.fonts -iname $A2)
+                if [[ -n "$findk" ]]; then
+                        sed -i "s/[A-Za-z1-9]*FreeMonoBold.ttf/$A2/g" CmCode2Img
+                        echo -e "${GREEN}The Source Was Successfully Exchanged!!!${RESET}\n"
+                else
+                        echo -e "\n${BOLD}${RED}$A2 Not Found!${RESET}\n"
+                        echo -e "${WHITE}Make sure the file.ttf is in $pwd_A/.fonts${RESET}\n"
+                fi
+        else
+                help_01
+        fi
+}
+
+help_01()
+{
+        echo -e "\n${RED}Invalid Command!!!${RESET}"
+        echo -e "\n${WHITE}Run:${RESET} ${BOLD}$0 --help${RESET}\n"
+        echo -e "                  ${BOLD}-f FreeMonoBold.ttf${RESET}\n"
+}
+
+check_dependents_install
