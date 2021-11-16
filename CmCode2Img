@@ -63,7 +63,7 @@ CodeImg()
                 echo -e "${WHITE}Usage: ${RESET}\n"
                 echo -e "      Example: ${BOLD}./CmCode2Img A1 -o NameImage${RESET}\n"
         elif [[ "$A1" == "-f" ]]; then
-                font_current=$(cat CmCode2Img | head -n 46 | tail -n1 | grep -o "[A-Za-z1-9]*\FreeMonoBold.ttf")
+                font_current=$(cat CmCode2Img | head -n 57 | tail -n1 | grep -o "[A-Za-z1-9]*\FreeMonoBoldOblique.ttf")
                 echo -e "\n${WHITE}Changing The Source:${RESET} ${BOLD}${SUBRI}$font_current${RESET} ${BOLD}➞${RESET} ${BOLD}${SUBRI}$A2${RESET}\n"
                 pwd_A=$(pwd)
                 findk=$(find $pwd_A/.fonts -iname $A2)
