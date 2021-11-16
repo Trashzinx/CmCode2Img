@@ -12,9 +12,9 @@
 
   ```bash
   # Install on Linux Users
-  sudo apt-get install libncurses5-dev libncursesw5-dev
+  sudo apt-get install libncurses5-dev libncursesw5-dev bc
   # Instal on Termux Users
-  apt-get install ncurses-utils
+  apt-get install ncurses-utils bc
   ```
 
   <h3>Installation</h3>
