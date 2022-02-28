@@ -54,7 +54,7 @@
     This project is licensed under the <a href="LICENSE">MIT</a> license.
   </p>
   <p>
-    Coded by <a href="https://github.com/Ahosall">AthenaD3V</a>
+    Coded by <a href="https://github.com/Trashzinx">Trashzinx</a>
   </p>
   <p>
     Readme by <a href="https://github.com/Ahosall">Ahosall</a> 🤍
